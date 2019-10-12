@@ -13,11 +13,14 @@ int main()
 
 
 	TgaBuffer *colorBuffer = new TgaBuffer(256, 256);
-	Triangle triangle = Triangle(float3{ -1.0f, -1.0f, -1.0f }, float3{ 0.0f, 0.5f, 0.0f }, float3{ 1.0f, -1.0f, 0.0f },
+	Triangle triangle = Triangle(float3{ -1.0f, -1.0f, 0.0f }, float3{ 0.0f, 0.5f, 0.0f }, float3{ 1.0f, -1.0f, 0.0f },
 								 float4{0, 0, 1, 1}, float4{ 1, 0, 0, 1 }, float4{ 0, 1, 0, 1 });
+	Triangle triangle2 = Triangle(float3{ -1.0f, -1.0f, 0.0f }, float3{ -1.0f, 1.0f, 0.0f }, float3{ 0.0f, 0.5f, 0.0f },
+								 float4{ 0, 1, 0, 1 }, float4{ 0, 1, 0, 1 }, float4{ 0, 1, 0, 1 });
 
 	Rasterizer rasterizer = Rasterizer(colorBuffer);
 	rasterizer.draw(triangle);
+	rasterizer.draw(triangle2);
 	colorBuffer->save("Image.tga");
 
 
