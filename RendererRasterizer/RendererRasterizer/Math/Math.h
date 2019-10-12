@@ -25,3 +25,21 @@ inline float max(float x, float y, float z)
 {
 	return std::max(x, std::max(y, z));
 }
+
+inline float4 operator*(float4 color, float number)
+{
+	float r = color.r * number;
+	float g = color.g * number;
+	float b = color.b * number;
+
+	return float4{ r, g, b, color.a };
+}
+
+inline float4 operator+(float4 c1, float4 c2)
+{
+	float r = c1.r + c2.r;
+	float g = c1.g + c2.g;
+	float b = c1.b + c2.b;
+
+	return float4{ r, g, b, c1.a };
+}

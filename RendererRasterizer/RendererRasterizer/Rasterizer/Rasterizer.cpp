@@ -36,6 +36,13 @@ void Rasterizer::draw(Triangle t)
 	float dy23 = y2 - y3;
 	float dy31 = y3 - y1;
 
+	float dx32 = x3 - x2;
+	float dx13 = x1 - x3;
+	float dy13 = y1 - y3;
+
+	float l1Denom = dy23 * dx13 + dx32 * dy13;
+	float l2Denom = dy31 * dx23 + dx13 * dy23;
+
 	for (int y = minY; y < maxY; y++)
 	{
 		for (int x = minX; x < maxX; x++)
@@ -44,7 +51,13 @@ void Rasterizer::draw(Triangle t)
 				dx23 * (y - y2) - dy23 * (x - x2) > 0 &&
 				dx31 * (y - y3) - dy31 * (x - x3) > 0)
 			{
-				colorBuffer->setPixelColor(x, y, t.color);
+				float l1 = (dy23 * (x - x3) + dx32 * (y - y3)) / l1Denom;
+				float l2 = (dy31 * (x - x3) + dx13 * (y - y3)) / l2Denom;
+				float l3 = 1 - l1 - l2;
+
+				float4 interpolatedColor = t.c1 * l1 + t.c2 * l2 + t.c3 * l3;
+
+				colorBuffer->setPixelColor(x, y, interpolatedColor);
 			}
 		}
 	}
