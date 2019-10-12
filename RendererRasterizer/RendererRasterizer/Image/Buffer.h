@@ -5,7 +5,7 @@ class Buffer
 {
 protected:
 	unsigned int *color;
-	float depth;
+	float *depth;
 	int w, h, minX, maxX, minY, maxY, length;
 
 public:
@@ -18,4 +18,7 @@ public:
 	int getWidth();
 	int getHeight();
 	int getLength();
+	float getDepth(int x, int y);
+
+	void setDepth(int x, int y, float depth);
 };

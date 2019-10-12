@@ -1,8 +1,8 @@
 #include "Rasterizer.h"
 
-Rasterizer::Rasterizer(Buffer *colorBuffer)
+Rasterizer::Rasterizer(Buffer * buffer)
 {
-	this->colorBuffer = colorBuffer;
+	this->buffer = buffer;
 }
 
 void Rasterizer::draw(Triangle t)
@@ -25,9 +25,9 @@ void Rasterizer::draw(Triangle t)
 
 	// Culling
 	minX = max(minX, 0.0f);
-	maxX = min(maxX, float(colorBuffer->getWidth() - 1));
+	maxX = min(maxX, float(buffer->getWidth() - 1));
 	minY = max(minY, 0.0f);
-	maxY = min(maxY, float(colorBuffer->getHeight() - 1));
+	maxY = min(maxY, float(buffer->getHeight() - 1));
 
 	float dx12 = x1 - x2;
 	float dx23 = x2 - x3;
@@ -61,8 +61,13 @@ void Rasterizer::draw(Triangle t)
 				float l3 = 1 - l1 - l2;
 
 				float4 interpolatedColor = t.c1 * l1 + t.c2 * l2 + t.c3 * l3;
+				float depth = l1 * t.v1.z + l2 * t.v2.z + l3 * t.v3.z;
 
-				colorBuffer->setPixelColor(x, y, interpolatedColor);
+				if (depth < buffer->getDepth(x, y))
+				{
+					buffer->setPixelColor(x, y, interpolatedColor);
+					buffer->setDepth(x, y, depth);
+				}
 			}
 		}	
 	}
@@ -70,10 +75,10 @@ void Rasterizer::draw(Triangle t)
 
 float Rasterizer::xToCanonicalView(float x)
 {
-	return (x + 1) * colorBuffer->getWidth() * 0.5f;
+	return (x + 1) * buffer->getWidth() * 0.5f;
 }
 
 float Rasterizer::yToCanonicalView(float y)
 {
-	return (y + 1) * colorBuffer->getHeight() * 0.5f;
+	return (y + 1) * buffer->getHeight() * 0.5f;
 }

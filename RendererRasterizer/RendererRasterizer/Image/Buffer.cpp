@@ -4,13 +4,16 @@ Buffer::Buffer(int w, int h)
 {
 	this->w = w;
 	this->h = h;
+
 	setSize(w * h);
+	depth = new float[w * h];
 
 	for (int y = 0; y < h; y++)
 	{
 		for (int x = 0; x < w; x++)
 		{
 			setPixelColor(x, y, float4{ 0, 0, 0, 1 });
+			setDepth(x, y, 1000000);
 		}
 	}
 }
@@ -52,4 +55,14 @@ int Buffer::getHeight()
 int Buffer::getLength()
 {
 	return w * h;
+}
+
+float Buffer::getDepth(int x, int y)
+{
+	return depth[x + y * w];
+}
+
+void Buffer::setDepth(int x, int y, float newDepth)
+{
+	depth[x + y * w] = newDepth;
 }

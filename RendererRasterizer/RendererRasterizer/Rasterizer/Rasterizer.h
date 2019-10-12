@@ -10,10 +10,10 @@ class Rasterizer
 {
 private:
 	vector<Triangle> t = vector<Triangle>();
-	Buffer *colorBuffer;
+	Buffer *buffer;
 
 public:
-	Rasterizer(Buffer *colorBuffer);
+	Rasterizer(Buffer * buffer);
 	void draw(Triangle t);
 	float xToCanonicalView(float x);
 	float yToCanonicalView(float y);
