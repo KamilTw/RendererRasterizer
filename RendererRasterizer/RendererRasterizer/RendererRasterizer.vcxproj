@@ -151,14 +151,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Buffer.cpp" />
+    <ClCompile Include="Image\Buffer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="TgaBuffer.cpp" />
+    <ClCompile Include="Rasterizer\Rasterizer.cpp" />
+    <ClCompile Include="Image\TgaBuffer.cpp" />
+    <ClCompile Include="Object\Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Buffer.h" />
-    <ClInclude Include="ITgaSavable.h" />
-    <ClInclude Include="TgaBuffer.h" />
+    <ClInclude Include="Image\Buffer.h" />
+    <ClInclude Include="Image\ITgaSavable.h" />
+    <ClInclude Include="Math\Math.h" />
+    <ClInclude Include="Rasterizer\Rasterizer.h" />
+    <ClInclude Include="Image\TgaBuffer.h" />
+    <ClInclude Include="Object\Triangle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,5 @@
 #pragma once
+#include "../Math/Math.h"
 
 class Buffer
 {
@@ -12,7 +13,7 @@ public:
 	void setSize(int size);
 	void clearColor();
 	void clearDepth();
-	void setPixelColor(int x, int y, int r, int g, int b, int a);
+	void setPixelColor(int x, int y, float4 rgba);
 
 	int getWidth();
 	int getHeight();
