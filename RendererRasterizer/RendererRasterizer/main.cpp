@@ -3,6 +3,7 @@
 #include "Image/TgaBuffer.h"
 #include "Object/Triangle.h"
 #include "Rasterizer/Rasterizer.h"
+#include "Object/ObjectLoader.h"
 
 int main()
 {
@@ -12,18 +13,24 @@ int main()
 
 
 
-	TgaBuffer *colorBuffer = new TgaBuffer(256, 256);
-	Triangle t1 = Triangle(float3{ -1.0f, -1.0f, 0.0f }, float3{ 0.0f, 0.5f, 0.0f }, float3{ 1.0f, -1.0f, 0.0f },
+	TgaBuffer *colorBuffer = new TgaBuffer(512, 512);
+	Triangle t1 = Triangle(float3{ 1.0f, -1.0f, 0.0f }, float3{ 0.0f, 0.5f, 0.0f }, float3{ -1.0f, -1.0f, 0.0f },
 								 float4{0, 0, 1, 1}, float4{ 1, 0, 0, 1 }, float4{ 0, 1, 0, 1 });
-	Triangle t2 = Triangle(float3{ -0.5f, -0.5f, -5.0f }, float3{ -0.2f, 0.5f, 5.0f }, float3{ 1.0f, -0.5f, -5.0f },
+	Triangle t2 = Triangle(float3{ 1.0f, -0.5f, -5.0f }, float3{ -0.2f, 0.5f, 5.0f }, float3{ -0.5f, -0.5f, -5.0f },
 								 float4{ 0, 1, 0, 1 }, float4{ 0, 1, 0, 1 }, float4{ 0, 1, 0, 1 });
 
+
 	Rasterizer rasterizer = Rasterizer(colorBuffer);
-	rasterizer.draw(t1);
-	rasterizer.draw(t2);
+	//rasterizer.draw(&t1);
+	//rasterizer.draw(&t2);
+	
+
+	ObjectLoader ol = ObjectLoader();
+	Model box = ol.loadObject("box");
+	rasterizer.draw(&box);
+
+
 	colorBuffer->save("Image.tga");
-
-
 
 	duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
 	std::cout << "Rendered in " << duration << " seconds"<< std::endl;

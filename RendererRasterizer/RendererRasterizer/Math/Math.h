@@ -1,5 +1,6 @@
 #pragma once
 #include <algorithm>
+#include <string>
 
 struct float3
 {
@@ -14,6 +15,14 @@ struct float4
 	float g;
 	float b;
 	float a;
+};
+
+struct Material
+{
+	float4 ka;
+	float4 kd;
+	float4 ks;
+	std::string name;
 };
 
 inline float min(float x, float y, float z)

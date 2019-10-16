@@ -6,6 +6,8 @@
     <ClCompile Include="Image\Buffer.cpp" />
     <ClCompile Include="Rasterizer\Rasterizer.cpp" />
     <ClCompile Include="Object\Triangle.cpp" />
+    <ClCompile Include="Object\ObjectLoader.cpp" />
+    <ClCompile Include="Object\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\Math.h" />
@@ -14,5 +16,7 @@
     <ClInclude Include="Image\Buffer.h" />
     <ClInclude Include="Rasterizer\Rasterizer.h" />
     <ClInclude Include="Object\Triangle.h" />
+    <ClInclude Include="Object\ObjectLoader.h" />
+    <ClInclude Include="Object\Model.h" />
   </ItemGroup>
 </Project>

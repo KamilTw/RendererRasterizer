@@ -5,17 +5,17 @@ Rasterizer::Rasterizer(Buffer * buffer)
 	this->buffer = buffer;
 }
 
-void Rasterizer::draw(Triangle t)
+void Rasterizer::draw(Triangle *t)
 {
 	// From 0-1 to image resolution
-	float x1 = xToCanonicalView(t.v1.x);
-	float y1 = yToCanonicalView(t.v1.y);
+	float x1 = xToCanonicalView(t->v1.x);
+	float y1 = yToCanonicalView(t->v1.y);
 
-	float x2 = xToCanonicalView(t.v2.x);
-	float y2 = yToCanonicalView(t.v2.y);
+	float x2 = xToCanonicalView(t->v2.x);
+	float y2 = yToCanonicalView(t->v2.y);
 
-	float x3 = xToCanonicalView(t.v3.x);
-	float y3 = yToCanonicalView(t.v3.y);
+	float x3 = xToCanonicalView(t->v3.x);
+	float y3 = yToCanonicalView(t->v3.y);
 
 	// Optimization
 	float minX = min(x1, x2, x3);
@@ -51,17 +51,18 @@ void Rasterizer::draw(Triangle t)
 	{
 		for (int x = minX; x <= maxX; x++)
 		{
-			if ((((dx12 * (y - y1) - dy12 * (x - x1) >= 0) && tl1) || (dx12 * (y - y1) - dy12 * (x - x1) > 0)) &&
-				(((dx23 * (y - y2) - dy23 * (x - x2) >= 0) && tl2) || (dx23 * (y - y2) - dy23 * (x - x2) > 0)) &&
-				(((dx31 * (y - y3) - dy31 * (x - x3) >= 0) && tl3) || (dx31 * (y - y3) - dy31 * (x - x3) > 0)))
+			// Left-handed system cause of 3ds max using it
+			if ((((dx12 * (y - y1) - dy12 * (x - x1) <= 0) && tl1) || (dx12 * (y - y1) - dy12 * (x - x1) < 0)) &&
+				(((dx23 * (y - y2) - dy23 * (x - x2) <= 0) && tl2) || (dx23 * (y - y2) - dy23 * (x - x2) < 0)) &&
+				(((dx31 * (y - y3) - dy31 * (x - x3) <= 0) && tl3) || (dx31 * (y - y3) - dy31 * (x - x3) < 0)))
 			{
 				// Color interpolation
 				float l1 = (dy23 * (x - x3) + dx32 * (y - y3)) / l1Denom;
 				float l2 = (dy31 * (x - x3) + dx13 * (y - y3)) / l2Denom;
 				float l3 = 1 - l1 - l2;
 
-				float4 interpolatedColor = t.c1 * l1 + t.c2 * l2 + t.c3 * l3;
-				float depth = l1 * t.v1.z + l2 * t.v2.z + l3 * t.v3.z;
+				float4 interpolatedColor = t->c1 * l1 + t->c2 * l2 + t->c3 * l3;
+				float depth = l1 * t->v1.z + l2 * t->v2.z + l3 * t->v3.z;
 
 				if (depth < buffer->getDepth(x, y))
 				{
@@ -70,6 +71,28 @@ void Rasterizer::draw(Triangle t)
 				}
 			}
 		}	
+	}
+}
+
+void Rasterizer::draw(Model* model)
+{
+	float3 vertice1, vertice2, vertice3;
+	for (int i = 0; i < model->numTriangles; i++)
+	{
+		int verticeIndex1 = model->vertexFaces[i][0];
+		int verticeIndex2 = model->vertexFaces[i][1];
+		int verticeIndex3 = model->vertexFaces[i][2];
+		int materialNumber = model->vertexFaces[i][7];
+
+		// .obj file numerates from 1, not 0
+		vertice1 = model->vertices[verticeIndex1 - 1];
+		vertice2 = model->vertices[verticeIndex2 - 1];
+		vertice3 = model->vertices[verticeIndex3 - 1];
+		float4 color = model->materials[materialNumber].kd;
+
+		Triangle t = Triangle(vertice1, vertice2, vertice3, color, color, color);
+
+		draw(&t);
 	}
 }
 
