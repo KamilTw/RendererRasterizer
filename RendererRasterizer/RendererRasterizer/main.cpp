@@ -27,6 +27,13 @@ int main()
 
 	ObjectLoader loader = ObjectLoader();
 	Model box = loader.loadObject("box");
+
+	box.scale(float3{ 0.5, 0.5, 0.5 });
+	//box.rotateYAxis(90);
+	box.rotate(90, float3{ 0, 1, 0 });
+	box.translate(float3{ -0.5f, -0.5f, 0.0f });
+
+	
 	rasterizer.draw(&box);
 
 
