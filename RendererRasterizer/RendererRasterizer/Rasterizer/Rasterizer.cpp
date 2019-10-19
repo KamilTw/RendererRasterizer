@@ -76,23 +76,9 @@ void Rasterizer::draw(Triangle *t)
 
 void Rasterizer::draw(Model* model)
 {
-	float3 vertice1, vertice2, vertice3;
-	for (int i = 0; i < model->numTriangles; i++)
+	for (int i = 0; i < model->getTrianglesAmount(); i++)
 	{
-		int verticeIndex1 = model->vertexFaces[i][0];
-		int verticeIndex2 = model->vertexFaces[i][1];
-		int verticeIndex3 = model->vertexFaces[i][2];
-		int materialNumber = model->vertexFaces[i][7];
-
-		// .obj file numerates from 1, not 0
-		vertice1 = model->vertices[verticeIndex1 - 1];
-		vertice2 = model->vertices[verticeIndex2 - 1];
-		vertice3 = model->vertices[verticeIndex3 - 1];
-		float4 color = model->materials[materialNumber].kd;
-
-		Triangle t = Triangle(vertice1, vertice2, vertice3, color, color, color);
-
-		draw(&t);
+		draw(&model->getTriangle(i));
 	}
 }
 

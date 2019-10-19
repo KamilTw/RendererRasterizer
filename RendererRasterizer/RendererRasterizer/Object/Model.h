@@ -1,18 +1,17 @@
 #pragma once
 #include <vector>
 #include "../Math/Math.h"
+#include "..//Object/Triangle.h"
 
 using namespace std;
 
 class Model
 {
+private:
+	vector<Triangle> triangles;
+
 public:
-	vector<float3> vertices;
-	vector<float3> normals;
-	vector<float> u;
-	vector<float> v;
-	vector<vector<int>> vertexFaces;
-	vector<Material> materials;
-	int numVertices;
-	int numTriangles;
+	void addTriangle(Triangle* triangle);
+	int getTrianglesAmount();
+	Triangle getTriangle(int index);
 };

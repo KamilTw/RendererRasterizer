@@ -25,8 +25,8 @@ int main()
 	//rasterizer.draw(&t2);
 	
 
-	ObjectLoader ol = ObjectLoader();
-	Model box = ol.loadObject("box");
+	ObjectLoader loader = ObjectLoader();
+	Model box = loader.loadObject("box");
 	rasterizer.draw(&box);
 
 
