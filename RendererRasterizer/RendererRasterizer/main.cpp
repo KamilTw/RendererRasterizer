@@ -4,6 +4,7 @@
 #include "Object/Triangle.h"
 #include "Rasterizer/Rasterizer.h"
 #include "Object/ObjectLoader.h"
+#include "Object/VertexProcessor.h"
 
 int main()
 {
@@ -24,16 +25,20 @@ int main()
 	//rasterizer.draw(&t1);
 	//rasterizer.draw(&t2);
 
+	VertexProcessor vp = VertexProcessor();
+	vp.setPerspective(45, 1.0f, 0.1f, 100.0f);
+	vp.setLookAt(float3{ 0, 0, 3 }, float3{ 0, 0, 0 }, float3{0, 1, 0});
+
+	vp.setIdentity();
+	vp.multByScale(float3{ 0.5, 0.5, 0.5 });
+	vp.multByRotation(90, float3{ 0, 1, 0 });
+	vp.multByTranslation(float3{ -0.5f, -0.5f, 1 });
 
 	ObjectLoader loader = ObjectLoader();
 	Model box = loader.loadObject("box");
 
-	box.scale(float3{ 0.5, 0.5, 0.5 });
-	//box.rotateYAxis(90);
-	box.rotate(90, float3{ 0, 1, 0 });
-	box.translate(float3{ -0.5f, -0.5f, 0.0f });
 
-	
+	vp.lt(&box);
 	rasterizer.draw(&box);
 
 

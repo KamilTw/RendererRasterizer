@@ -76,17 +76,6 @@ union float4
 	}
 };
 
-// delete after transform change
-struct float3x3
-{
-	float3 data[3];
-
-	float3 operator[](int i)
-	{
-		return data[i];
-	}
-};
-
 struct float4x4
 {
 	float4 data[4] = { {0, 0, 0, 0},
@@ -140,24 +129,6 @@ inline float3 operator*(float3 v, float n)
 inline float3 operator*(float3 v1, float3 v2)
 {
 	return float3{ v1.x * v2.x, v1.y * v2.y, v1.z * v2.z };
-}
-
-// delete after transform change
-inline float3 operator*(float3 vector, float3x3 matrix)
-{
-	float3 newVector;
-
-	for (int i = 0; i < 3; i++)
-	{
-		float sum = 0;
-		for (int j = 0; j < 3; j++)
-		{
-			sum += vector[j] * matrix[i][j];
-		}
-		newVector.data[i] = sum;
-	}
-
-	return newVector;
 }
 
 inline float4 operator+(float4 c1, float4 c2)

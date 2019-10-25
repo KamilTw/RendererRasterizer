@@ -156,6 +156,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object\Model.cpp" />
     <ClCompile Include="Object\ObjectLoader.cpp" />
+    <ClCompile Include="Object\VertexProcessor.cpp" />
     <ClCompile Include="Rasterizer\Rasterizer.cpp" />
     <ClCompile Include="Image\TgaBuffer.cpp" />
     <ClCompile Include="Object\Triangle.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Object\Model.h" />
     <ClInclude Include="Object\ObjectLoader.h" />
+    <ClInclude Include="Object\VertexProcessor.h" />
     <ClInclude Include="Rasterizer\Rasterizer.h" />
     <ClInclude Include="Image\TgaBuffer.h" />
     <ClInclude Include="Object\Triangle.h" />

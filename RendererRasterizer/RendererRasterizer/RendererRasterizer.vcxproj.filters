@@ -8,6 +8,7 @@
     <ClCompile Include="Object\Triangle.cpp" />
     <ClCompile Include="Object\ObjectLoader.cpp" />
     <ClCompile Include="Object\Model.cpp" />
+    <ClCompile Include="Object\VertexProcessor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\Math.h" />
@@ -18,5 +19,6 @@
     <ClInclude Include="Object\Triangle.h" />
     <ClInclude Include="Object\ObjectLoader.h" />
     <ClInclude Include="Object\Model.h" />
+    <ClInclude Include="Object\VertexProcessor.h" />
   </ItemGroup>
 </Project>
