@@ -23,7 +23,7 @@ int main()
 	Rasterizer rasterizer = Rasterizer(colorBuffer);
 	//rasterizer.draw(&t1);
 	//rasterizer.draw(&t2);
-	
+
 
 	ObjectLoader loader = ObjectLoader();
 	Model box = loader.loadObject("box");
