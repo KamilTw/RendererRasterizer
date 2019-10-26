@@ -1,21 +1,11 @@
 #include "Model.h"
 
-void Model::addTriangle(Triangle *triangle)
+int Model::getVerticesAmount()
 {
-	triangles.push_back(*triangle);
+	return vertices.size();
 }
 
-int Model::getTrianglesAmount()
+int Model::getIndexesAmount()
 {
-	return triangles.size();
-}
-
-Triangle Model::getTriangle(int index)
-{
-	return triangles[index];
-}
-
-void Model::setTriangle(int i, Triangle t)
-{
-	triangles[i] = t;
+	return vIndexes.size();
 }

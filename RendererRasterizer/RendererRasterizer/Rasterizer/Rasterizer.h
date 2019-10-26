@@ -10,13 +10,13 @@ using namespace std;
 class Rasterizer
 {
 private:
-	vector<Triangle> t = vector<Triangle>();
 	Buffer *buffer;
 
 public:
 	Rasterizer(Buffer *buffer);
-	void draw(Triangle *t);
+	void draw(float3 v1, float3 v2, float3 v3, float4 c1, float4 c2, float4 c3);
 	void draw(Model* model);
+	void draw(Triangle* triangle);
 	float xToCanonicalView(float x);
 	float yToCanonicalView(float y);
 };

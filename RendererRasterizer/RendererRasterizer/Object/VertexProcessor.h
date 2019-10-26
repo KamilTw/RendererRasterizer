@@ -12,6 +12,7 @@ private:
 public:
 	float3 tr(float3 v);
 	void lt(Model* model);
+	void lt(Triangle* triangle);
 	void setPerspective(float fovy, float aspect, float near, float far);
 	void setLookAt(float3 eye, float3 center, float3 up);
 	void setIdentity();

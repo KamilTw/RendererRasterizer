@@ -8,11 +8,13 @@ using namespace std;
 class Model
 {
 public:
-	vector<Triangle> triangles;
+	vector<float3> vertices;
+	vector<int3> vIndexes;
+
+	vector<Material> materials;
+	vector<int> mIndexes;
 
 public:
-	void addTriangle(Triangle* triangle);
-	int getTrianglesAmount();
-	Triangle getTriangle(int index);
-	void setTriangle(int i, Triangle t);
+	int getVerticesAmount();
+	int getIndexesAmount();
 };

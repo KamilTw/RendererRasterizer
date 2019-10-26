@@ -5,17 +5,17 @@ Rasterizer::Rasterizer(Buffer * buffer)
 	this->buffer = buffer;
 }
 
-void Rasterizer::draw(Triangle *t)
+void Rasterizer::draw(float3 v1, float3 v2, float3 v3, float4 c1, float4 c2, float4 c3)
 {
 	// From 0-1 to image resolution
-	float x1 = xToCanonicalView(t->v1.x);
-	float y1 = yToCanonicalView(t->v1.y);
+	float x1 = xToCanonicalView(v1.x);
+	float y1 = yToCanonicalView(v1.y);
 
-	float x2 = xToCanonicalView(t->v2.x);
-	float y2 = yToCanonicalView(t->v2.y);
+	float x2 = xToCanonicalView(v2.x);
+	float y2 = yToCanonicalView(v2.y);
 
-	float x3 = xToCanonicalView(t->v3.x);
-	float y3 = yToCanonicalView(t->v3.y);
+	float x3 = xToCanonicalView(v3.x);
+	float y3 = yToCanonicalView(v3.y);
 
 	// Optimization
 	float minX = min(x1, x2, x3);
@@ -61,8 +61,8 @@ void Rasterizer::draw(Triangle *t)
 				float l2 = (dy31 * (x - x3) + dx13 * (y - y3)) / l2Denom;
 				float l3 = 1 - l1 - l2;
 
-				float4 interpolatedColor = t->c1 * l1 + t->c2 * l2 + t->c3 * l3;
-				float depth = l1 * t->v1.z + l2 * t->v2.z + l3 * t->v3.z;
+				float4 interpolatedColor = c1 * l1 + c2 * l2 + c3 * l3;
+				float depth = l1 * v1.z + l2 * v2.z + l3 * v3.z;
 
 				if (depth < buffer->getDepth(x, y))
 				{
@@ -76,9 +76,19 @@ void Rasterizer::draw(Triangle *t)
 
 void Rasterizer::draw(Model* model)
 {
-	for (int i = 0; i < model->getTrianglesAmount(); i++)
+	for (int i = 0; i < model->getIndexesAmount(); i++)
+	{	
+		draw(model->vertices[model->vIndexes[i].a], model->vertices[model->vIndexes[i].b], model->vertices[model->vIndexes[i].c],
+			 model->materials[model->mIndexes[i]].kd, model->materials[model->mIndexes[i]].kd, model->materials[model->mIndexes[i]].kd);
+	}
+}
+
+void Rasterizer::draw(Triangle* triangle)
+{
+	for (int i = 0; i < 3; i++)
 	{
-		draw(&model->getTriangle(i));
+		draw(triangle->v[0], triangle->v[1], triangle->v[2],
+			 triangle->c[0], triangle->c[1], triangle->c[2]);
 	}
 }
 

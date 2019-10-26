@@ -4,12 +4,17 @@ Model ObjectLoader::loadObject(std::string objectFileName)
 {
 	Model model = Model();
 	vertices.clear();
+	vIndexes.clear();
+
+	materials.clear();
+	mIndexes.clear();
+	materialNames.clear();
+
 	normals.clear();
 	u.clear();
 	v.clear();
-	materials.clear();
 
-	loadMaterial(objectFileName, &materials);
+	loadMaterial(objectFileName);
 
 	std::fstream file;
 	file.open("Objects/" + objectFileName + ".obj");
@@ -53,9 +58,9 @@ Model ObjectLoader::loadObject(std::string objectFileName)
 			{
 				std::string materialName = line;
 				materialName.erase(0, 7);
-				for (int i = 0; i < materials.size(); i++)
+				for (int i = 0; i < materialNames.size(); i++)
 				{
-					if (materials[i].name == materialName)
+					if (materialNames[i] == materialName)
 					{
 						currentMaterialIndex = i;				// material index
 					}
@@ -69,10 +74,15 @@ Model ObjectLoader::loadObject(std::string objectFileName)
 				sscanf_s(line.c_str(), "f %i/%i/%i %i/%i/%i %i/%i/%i", &vIndice1, &vtIndice1, &normal, &vIndice2, &vtIndice2, &normal, &vIndeice3, &vtIndice3, &normal);
 
 				// .obj file numerates from 1, not 0 (not materials)
-				model.addTriangle(&Triangle(vertices[vIndice1 - 1], vertices[vIndice2 - 1], vertices[vIndeice3 - 1],									// vertices
-									materials[currentMaterialIndex].kd, materials[currentMaterialIndex].kd, materials[currentMaterialIndex].kd));		// colors
+				vIndexes.push_back(int3{ vIndice1 - 1, vIndice2 - 1, vIndeice3 - 1 });
+				mIndexes.push_back(currentMaterialIndex);
 			}
 		}
+		model.vertices = vertices;
+		model.vIndexes = vIndexes;
+
+		model.materials = materials;
+		model.mIndexes = mIndexes;
 
 		file.close();
 		std::cout << objectFileName << ".obj file loaded" << std::endl << std::endl;
@@ -81,7 +91,7 @@ Model ObjectLoader::loadObject(std::string objectFileName)
 	}
 }
 
-void ObjectLoader::loadMaterial(string objectFileName, vector<Material> *materials)
+void ObjectLoader::loadMaterial(string objectFileName)
 {
 	fstream file;
 	string line;
@@ -126,11 +136,12 @@ void ObjectLoader::loadMaterial(string objectFileName, vector<Material> *materia
 
 				ks = float4{ r, g, b, 1 };
 
-				materials->push_back(Material{ ka, kd, ks, materialName });
+				materialNames.push_back(materialName);
+				materials.push_back(Material{ka, kd, ks});
 			}
 		}
 
 		file.close();
-		cout << materials->size() << " materials loaded from " << objectFileName + ".mtl" << endl;
+		cout << materialNames.size() << " materials loaded from " << objectFileName + ".mtl" << endl;
 	}
 }

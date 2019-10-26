@@ -10,11 +10,17 @@ float3 VertexProcessor::tr(float3 v)
 
 void VertexProcessor::lt(Model *model)
 {
-	for (int i = 0; i < model->getTrianglesAmount(); i++)
+	for (int i = 0; i < model->getVerticesAmount(); i++)
 	{
-		model->triangles[i].v1 = tr(model->getTriangle(i).v1);
-		model->triangles[i].v2 = tr(model->getTriangle(i).v2);
-		model->triangles[i].v3 = tr(model->getTriangle(i).v3);
+		model->vertices[i] = tr(model->vertices[i]);
+	}
+}
+
+void VertexProcessor::lt(Triangle* triangle)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		triangle->v[i] = tr(triangle->v[i]);
 	}
 }
 

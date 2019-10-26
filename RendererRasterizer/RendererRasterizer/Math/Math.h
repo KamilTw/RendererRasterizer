@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <string>
 
-#define M_PI 3.14159265358979323846
+const double M_PI = 3.14159265358979323846;
 const float epsilon = 0.0001f;
 
 union int3
@@ -95,7 +95,6 @@ struct Material
 	float4 ka;
 	float4 kd;
 	float4 ks;
-	std::string name;
 };
 
 inline float3 operator-(float3 v)

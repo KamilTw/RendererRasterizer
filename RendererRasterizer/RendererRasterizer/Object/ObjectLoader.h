@@ -8,11 +8,17 @@ class ObjectLoader
 {
 private:
 	vector<float3> vertices;
+	vector<int3> vIndexes;
+
+	vector<Material> materials;
+	vector<int> mIndexes;
+	vector<string> materialNames;
+
 	vector<float3> normals;
 	vector<float> u;
 	vector<float> v;
-	vector<Material> materials;
+
 public:
 	Model loadObject(std::string objectFileName);
-	void loadMaterial(string objectFileName, vector<Material>* materials);
+	void loadMaterial(string objectFileName);
 };
