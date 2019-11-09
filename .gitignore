@@ -38,3 +38,5 @@
 
 # Exception .obj
 !box.obj
+!sphere16.obj
+!sphere128.obj
