@@ -35,6 +35,21 @@ float Light::getShininess()
 	return shininess;
 }
 
+float Light::getConstantAtten()
+{
+	return constant;
+}
+
+float Light::getLinearAtten()
+{
+	return linear;
+}
+
+float Light::getQuadraticAtten()
+{
+	return quadratic;
+}
+
 void Light::setPosition(float3 position)
 {
 	this->position = position;
@@ -63,4 +78,11 @@ void Light::setSpecular(float3 specular)
 void Light::setShininess(float shininess)
 {
 	this->shininess = shininess;
+}
+
+void Light::setAttenuation(float constant, float linear, float quadratic)
+{
+	this->constant = constant;
+	this->linear = linear;
+	this->quadratic = quadratic;
 }

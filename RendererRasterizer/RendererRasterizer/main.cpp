@@ -7,6 +7,7 @@
 #include "Shaders/VertexProcessor.h"
 #include "Lights/DirectionalLight.h"
 #include "Lights/Light.h"
+#include "Lights/PointLight.h"
 
 int main()
 {
@@ -49,22 +50,24 @@ int main()
 	dl->setShininess(10);
 	rasterizer.addLight(dl);
 
-	Light* pointLight1 = new DirectionalLight();
-	pointLight1->setPosition(float3{ 5.0f, 5.0f, -1.0f });
-	pointLight1->setLightColor(float3{ 0.4f, 1.0f, 1.0f });
+	Light* pointLight1 = new PointLight();
+	pointLight1->setPosition(float3{ 30.0f, 30.0f, -1.0f });
+	pointLight1->setLightColor(float3{ 0.3f, 1.0f, 1.0f });
 	pointLight1->setAmbient(float3{ 0.2f, 0.2f, 0.2f });
 	pointLight1->setDiffuse(float3{ 0.6f, 0.6f, 0.6f });
 	pointLight1->setSpecular(float3{ 0.9f, 0.9f, 0.9f });
 	pointLight1->setShininess(10);
+	pointLight1->setAttenuation(1, 0.01f, 0.0001f);
 	rasterizer.addLight(pointLight1);
 
-	Light* pointLight2 = new DirectionalLight();
+	Light* pointLight2 = new PointLight();
 	pointLight2->setPosition(float3{ -5.0f, -5.0f, -1.0f });
-	pointLight2->setLightColor(float3{ 0.2f, 1.0f, 1.0f });
+	pointLight2->setLightColor(float3{ 0.3f, 1.0f, 1.0f });
 	pointLight2->setAmbient(float3{ 0.2f, 0.2f, 0.2f });
 	pointLight2->setDiffuse(float3{ 0.6f, 0.6f, 0.6f });
 	pointLight2->setSpecular(float3{ 0.9f, 0.9f, 0.9f });
 	pointLight2->setShininess(10);
+	pointLight2->setAttenuation(1, 0.01f, 0.0001f);
 	rasterizer.addLight(pointLight2);
 
 	// Box

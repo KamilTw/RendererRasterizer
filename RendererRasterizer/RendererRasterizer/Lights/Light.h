@@ -9,10 +9,15 @@ class Light
 private:
 	float3 position;
 	float3 lightColor;
+
 	float3 ambient;
 	float3 diffuse;
 	float3 specular;
 	float shininess;
+
+	float constant;
+	float linear;
+	float quadratic;
 
 public:
 	virtual float3 calculate(float3& fragPosition, float3& fragNormal, VertexProcessor& vertexProcessor);
@@ -23,6 +28,9 @@ public:
 	float3 getDiffuse();
 	float3 getSpecular();
 	float getShininess();
+	float getConstantAtten();
+	float getLinearAtten();
+	float getQuadraticAtten();
 
 	void setPosition(float3 position);
 	void setLightColor(float3 lightColor);
@@ -30,4 +38,5 @@ public:
 	void setDiffuse(float3 diffuse);
 	void setSpecular(float3 specular);
 	void setShininess(float shininess);
+	void setAttenuation(float constant, float linear, float quadratic);
 };

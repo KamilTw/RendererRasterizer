@@ -20,9 +20,12 @@ float3 PointLight::calculate(float3& fragPosition, float3& fragNormal, VertexPro
 	float diffCoefficient = max(dotProduct(L, N), 0.0f);
 	float specCoefficient = powf(max(dotProduct(R, V), 0.0f), getShininess());
 
+	float distance = (getPosition() - fragPosition).getLength();
+	float attenuation = 1.0f / (getConstantAtten() + getLinearAtten() * distance + getQuadraticAtten() * distance * distance);
+
 	float3 ambient = getAmbient() * getLightColor();
 	float3 diffuse = getDiffuse() * diffCoefficient * getLightColor();
 	float3 specular = getSpecular() * specCoefficient * getLightColor();
 
-	return ambient + diffuse + specular;
+	return (ambient + diffuse + specular) * attenuation;
 }
