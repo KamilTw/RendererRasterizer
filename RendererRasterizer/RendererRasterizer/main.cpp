@@ -42,12 +42,30 @@ int main()
 	// Light
 	Light* dl = new DirectionalLight();
 	dl->setPosition(float3{ -0.5f, 0.0f, -0.5f });
-	dl->setLightColor(float3{ 1.0f, 1.0f, 1.0f });
+	dl->setLightColor(float3{ 0.4f, 1.0f, 1.0f });
 	dl->setAmbient(float3{ 0.2f, 0.2f, 0.2f });
 	dl->setDiffuse(float3{ 0.6f, 0.6f, 0.6f });
 	dl->setSpecular(float3{ 0.5f, 0.5f, 0.5f });
 	dl->setShininess(10);
 	rasterizer.addLight(dl);
+
+	Light* pointLight1 = new DirectionalLight();
+	pointLight1->setPosition(float3{ 5.0f, 5.0f, -1.0f });
+	pointLight1->setLightColor(float3{ 0.4f, 1.0f, 1.0f });
+	pointLight1->setAmbient(float3{ 0.2f, 0.2f, 0.2f });
+	pointLight1->setDiffuse(float3{ 0.6f, 0.6f, 0.6f });
+	pointLight1->setSpecular(float3{ 0.9f, 0.9f, 0.9f });
+	pointLight1->setShininess(10);
+	rasterizer.addLight(pointLight1);
+
+	Light* pointLight2 = new DirectionalLight();
+	pointLight2->setPosition(float3{ -5.0f, -5.0f, -1.0f });
+	pointLight2->setLightColor(float3{ 0.2f, 1.0f, 1.0f });
+	pointLight2->setAmbient(float3{ 0.2f, 0.2f, 0.2f });
+	pointLight2->setDiffuse(float3{ 0.6f, 0.6f, 0.6f });
+	pointLight2->setSpecular(float3{ 0.9f, 0.9f, 0.9f });
+	pointLight2->setShininess(10);
+	rasterizer.addLight(pointLight2);
 
 	// Box
 	ObjectLoader loader = ObjectLoader();

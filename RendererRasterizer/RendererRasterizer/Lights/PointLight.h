@@ -3,9 +3,6 @@
 
 class PointLight : public Light
 {
-private:
-	float3 position;
-
 public:
-	float3 getPosition();
+	float3 calculate(float3& fragPosition, float3& fragNormal, VertexProcessor& vertexProcessor);
 };
