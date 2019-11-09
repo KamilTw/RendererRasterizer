@@ -57,6 +57,11 @@ void Rasterizer::draw(float3& v11, float3& v22, float3& v33, float4& c1, float4&
 	bool tl2 = dy23 < 0 || (dy23 == 0 && dx23 > 0);
 	bool tl3 = dy31 < 0 || (dy31 == 0 && dx31 > 0);
 
+	// Per vertex lighting
+	//float3 c1Fragment = calculateColorPerVertex(v1, c1, n1);
+	//float3 c2Fragment = calculateColorPerVertex(v2, c2, n2);
+	//float3 c3Fragment = calculateColorPerVertex(v3, c3, n3);
+
 	for (int y = minY; y <= maxY; y++)
 	{
 		for (int x = minX; x <= maxX; x++)
@@ -75,17 +80,11 @@ void Rasterizer::draw(float3& v11, float3& v22, float3& v33, float4& c1, float4&
 
 				if (depth < buffer->getDepth(x, y))
 				{
-					// Fragment shader
-					float3 c1Fragment = float3{ c1.r, c1.g, c1.b } * fragment.calculate(v1, n1, vp);
-					float3 c2Fragment = float3{ c2.r, c2.g, c2.b } * fragment.calculate(v2, n2, vp);
-					float3 c3Fragment = float3{ c3.r, c3.g, c3.b } * fragment.calculate(v3, n3, vp);
-
-					// Color interpolation
-					float3 interpolatedColor = c1Fragment * l1 + c2Fragment * l2 + c3Fragment * l3;		
-					maxToOne(interpolatedColor);
-
-					float4 color = float4{ interpolatedColor.r, interpolatedColor.g, interpolatedColor.b, c1.a };
-					
+					// Per vertex lighting
+					//float4 color = interpolateColor(c1Fragment, c2Fragment, c3Fragment, l1, l2, l3);
+					// Per pixel lighting
+					float4 color = calculateColorPerPixel(v1, v2, v3, c1, c2, c3, n1, n2, n3, l1, l2, l3);
+			
 					buffer->setPixelColor(x, y, color);
 					buffer->setDepth(x, y, depth);
 				}
@@ -122,6 +121,48 @@ float Rasterizer::xToCanonicalView(float x)
 float Rasterizer::yToCanonicalView(float y)
 {
 	return (y + 1) * buffer->getHeight() * 0.5f;
+}
+
+float3 Rasterizer::calculateColorPerVertex(float3& v, float4& c, float3& n)
+{
+	float3 cFragment = float3{ c.r, c.g, c.b } * fragment.calculate(v, n, vp);
+
+	return cFragment;
+}
+
+float4 Rasterizer::interpolateColor(float3& c1Fragment, float3& c2Fragment, float3& c3Fragment, float& l1, float& l2, float& l3)
+{
+	// Color interpolation
+	float3 interpolatedColor = c1Fragment * l1 + c2Fragment * l2 + c3Fragment * l3;
+	maxToOne(interpolatedColor);
+
+	return float4{ interpolatedColor.r, interpolatedColor.g, interpolatedColor.b, 1 };
+}
+
+float4 Rasterizer::calculateColorPerPixel(float3& v1, float3& v2, float3& v3, float4& c1, float4& c2, float4& c3, float3& n1, float3& n2, float3& n3, float& l1, float& l2, float& l3)
+{
+	// Normals interpolation
+	float nx = l1 * n1.x + l2 * n2.x + l3 * n3.x;
+	float ny = l1 * n1.y + l2 * n2.y + l3 * n3.y;
+	float nz = l1 * n1.z + l2 * n2.z + l3 * n3.z;
+
+	// Vertices interpolation
+	float vx = l1 * v1.x + l2 * v2.x + l3 * v3.x;
+	float vy = l1 * v1.y + l2 * v2.y + l3 * v3.y;
+	float vz = l1 * v1.z + l2 * v2.z + l3 * v3.z;
+
+	// Color interpolation
+	float cr = l1 * c1.r + l2 * c2.r + l3 * c3.r;
+	float cg = l1 * c1.g + l2 * c2.g + l3 * c3.g;
+	float cb = l1 * c1.b + l2 * c2.b + l3 * c3.b;
+
+	float3 interpolatedV = float3{ vx, vy, vz };
+	float3 interpolatedN = float3{ nx, ny, nz };
+
+	float3 colorPerPixel = float3{ cr, cg, cb } * fragment.calculate(interpolatedV, interpolatedN, vp);
+	maxToOne(colorPerPixel);
+
+	return float4{ colorPerPixel.r, colorPerPixel.g, colorPerPixel.b, c1.a };
 }
 
 void Rasterizer::maxToOne(float3 &color)
