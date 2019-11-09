@@ -1,18 +1,42 @@
 #include "VertexProcessor.h"
 #include <iostream>
 
-float3 VertexProcessor::tr(float3 v)
+float3 VertexProcessor::toProj(float3 v, float w)
 {
-	float4 r = view2proj * world2view * obj2world * v;
+	float4 r = view2proj * world2view * obj2world * float4{ v.x, v.y, v.z, w };;
 
-	return float3{ r.x / r.w , r.y / r.w , r.z / r.w };
+	if (w == 1)
+	{
+		return float3{ r.x / r.w , r.y / r.w , r.z / r.w };
+	}
+	else
+	{
+		return float3{ r.x , r.y, r.z };
+	}
+}
+
+float3 VertexProcessor::toView(float3 v, float w)
+{
+	//float4 r = world2view * obj2world * float4{ v.x, v.y, v.z, w };
+	float4 r = world2view * float4{ v.x, v.y, v.z, w };
+
+	if (w == 1)
+	{
+		return float3{ r.x / r.w , r.y / r.w , r.z / r.w };
+	}
+	else
+	{
+		return float3{ r.x , r.y, r.z };
+	}
 }
 
 void VertexProcessor::lt(Model *model)
 {
 	for (int i = 0; i < model->getVerticesAmount(); i++)
 	{
-		model->vertices[i] = tr(model->vertices[i]);
+		model->vertices[i] = toProj(model->vertices[i], 1);
+		model->normals[i] = toProj(model->normals[i], 0);
+		model->normals[i].normalize();
 	}
 }
 
@@ -20,7 +44,7 @@ void VertexProcessor::lt(Triangle* triangle)
 {
 	for (int i = 0; i < 3; i++)
 	{
-		triangle->v[i] = tr(triangle->v[i]);
+		triangle->v[i] = toProj(triangle->v[i], 1);
 	}
 }
 

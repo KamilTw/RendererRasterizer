@@ -14,6 +14,9 @@ public:
 	vector<Material> materials;
 	vector<int> mIndexes;
 
+	vector<float3> normals;
+	vector<int3> nIndexes;
+
 public:
 	int getVerticesAmount();
 	int getIndexesAmount();

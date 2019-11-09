@@ -15,6 +15,8 @@ private:
 	vector<string> materialNames;
 
 	vector<float3> normals;
+	vector<int3> nIndexes;
+
 	vector<float> u;
 	vector<float> v;
 

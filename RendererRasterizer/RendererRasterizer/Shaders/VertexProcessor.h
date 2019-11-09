@@ -1,6 +1,6 @@
 #pragma once
 #include "..//Math/Math.h"
-#include "Model.h"
+#include "..//Object/Model.h"
 
 class VertexProcessor
 {
@@ -10,7 +10,8 @@ private:
 	float4x4 view2proj;
 
 public:
-	float3 tr(float3 v);
+	float3 toProj(float3 v, float w);
+	float3 toView(float3 v, float w);
 	void lt(Model* model);
 	void lt(Triangle* triangle);
 	void setPerspective(float fovy, float aspect, float near, float far);

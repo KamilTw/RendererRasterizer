@@ -11,6 +11,8 @@ Model ObjectLoader::loadObject(std::string objectFileName)
 	materialNames.clear();
 
 	normals.clear();
+	nIndexes.clear();
+
 	u.clear();
 	v.clear();
 
@@ -70,12 +72,13 @@ Model ObjectLoader::loadObject(std::string objectFileName)
 			{
 				int vIndice1, vIndice2, vIndeice3;				// vertices indexes
 				int vtIndice1, vtIndice2, vtIndice3;			// tex coords indexes
-				int normal;										// normal index
-				sscanf_s(line.c_str(), "f %i/%i/%i %i/%i/%i %i/%i/%i", &vIndice1, &vtIndice1, &normal, &vIndice2, &vtIndice2, &normal, &vIndeice3, &vtIndice3, &normal);
+				int nIndice1, nIndice2, nIndice3;				// normal index
+				sscanf_s(line.c_str(), "f %i/%i/%i %i/%i/%i %i/%i/%i", &vIndice1, &vtIndice1, &nIndice1, &vIndice2, &vtIndice2, &nIndice2, &vIndeice3, &vtIndice3, &nIndice3);
 
 				// .obj file numerates from 1, not 0 (not materials)
 				vIndexes.push_back(int3{ vIndice1 - 1, vIndice2 - 1, vIndeice3 - 1 });
 				mIndexes.push_back(currentMaterialIndex);
+				nIndexes.push_back(int3{ nIndice1 - 1, nIndice2 - 1, nIndice3 - 1 });
 			}
 		}
 		model.vertices = vertices;
@@ -83,6 +86,9 @@ Model ObjectLoader::loadObject(std::string objectFileName)
 
 		model.materials = materials;
 		model.mIndexes = mIndexes;
+
+		model.normals = normals;
+		model.nIndexes = nIndexes;
 
 		file.close();
 		std::cout << objectFileName << ".obj file loaded" << std::endl << std::endl;

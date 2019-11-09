@@ -125,6 +125,11 @@ inline float3 operator*(float3 v, float n)
 	return float3{ v.x * n, v.y * n, v.z * n };
 }
 
+inline float3 operator/(float3 v, float n)
+{
+	return float3{ v.x / n, v.y / n, v.z / n };
+}
+
 inline float3 operator*(float3 v1, float3 v2)
 {
 	return float3{ v1.x * v2.x, v1.y * v2.y, v1.z * v2.z };
@@ -138,6 +143,11 @@ inline float4 operator+(float4 c1, float4 c2)
 inline float4 operator*(float4 c, float n)
 {
 	return float4{ c.r * n, c.g * n, c.b * n, c.a };
+}
+
+inline float4 operator*(float4 v1, float4 v2)
+{
+	return float4{ v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.a * v2.a };
 }
 
 inline float min(float x, float y, float z)

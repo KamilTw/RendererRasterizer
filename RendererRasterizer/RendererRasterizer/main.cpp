@@ -4,7 +4,9 @@
 #include "Object/Triangle.h"
 #include "Rasterizer/Rasterizer.h"
 #include "Object/ObjectLoader.h"
-#include "Object/VertexProcessor.h"
+#include "Shaders/VertexProcessor.h"
+#include "Lights/DirectionalLight.h"
+#include "Lights/Light.h"
 
 int main()
 {
@@ -20,7 +22,7 @@ int main()
 	VertexProcessor vp = VertexProcessor();
 	vp.setPerspective(45, 1.0f, 0.1f, 100.0f);
 	vp.setLookAt(float3{ 0, 0, 3 }, float3{ 0, 0, 0 }, float3{ 0, 1, 0 });
-
+	rasterizer.setVp(vp);
 
 	// Triangles
 	vp.setIdentity();
@@ -37,18 +39,50 @@ int main()
 	//rasterizer.draw(&t1);
 	//rasterizer.draw(&t2);
 
+	// Light
+	Light* dl = new DirectionalLight();
+	dl->setPosition(float3{ -0.5f, 0.0f, -0.5f });
+	dl->setLightColor(float3{ 1.0f, 1.0f, 1.0f });
+	dl->setAmbient(float3{ 0.2f, 0.2f, 0.2f });
+	dl->setDiffuse(float3{ 0.6f, 0.6f, 0.6f });
+	dl->setSpecular(float3{ 0.5f, 0.5f, 0.5f });
+	dl->setShininess(10);
+	rasterizer.addLight(dl);
 
 	// Box
-	vp.setIdentity();
-	vp.multByScale(float3{ 0.5, 0.5, 0.5 });
-	vp.multByRotation(90, float3{ 0, 1, 0 });
-	vp.multByTranslation(float3{ -0.5f, -0.5f, 1 });
-
 	ObjectLoader loader = ObjectLoader();
-	Model box = loader.loadObject("box");
+	Model box = loader.loadObject("sphere128");
 
-	vp.lt(&box);
-	rasterizer.draw(&box);
+	vp.setIdentity();
+	vp.multByScale(float3{0.35, 0.35, 0.35 });
+	vp.multByRotation(90, float3{ 0, 1, 0 });
+	vp.multByTranslation(float3{ 0.0f, 0.0f, 0 });
+	rasterizer.draw(&box, vp);
+
+	vp.setIdentity();
+	vp.multByScale(float3{ 0.35, 0.35, 0.35 });
+	vp.multByRotation(90, float3{ 0, 1, 0 });
+	vp.multByTranslation(float3{ 0.8f, 0.0f, 0 });
+	rasterizer.draw(&box, vp);
+
+	vp.setIdentity();
+	vp.multByScale(float3{ 0.35, 0.35, 0.35 });
+	vp.multByRotation(90, float3{ 0, 1, 0 });
+	vp.multByTranslation(float3{ -0.8f, 0.0f, 0 });
+	rasterizer.draw(&box, vp);
+
+	vp.setIdentity();
+	vp.multByScale(float3{ 0.35, 0.35, 0.35 });
+	vp.multByRotation(90, float3{ 0, 1, 0 });
+	vp.multByTranslation(float3{ 0.0f, 0.8f, 0 });
+	rasterizer.draw(&box, vp);
+
+	vp.setIdentity();
+	vp.multByScale(float3{ 0.35, 0.35, 0.35 });
+	vp.multByRotation(90, float3{ 0, 1, 0 });
+	vp.multByTranslation(float3{ 0.0f, -0.8f, 0 });
+	rasterizer.draw(&box, vp);
+
 
 
 	colorBuffer->save("Image.tga");
