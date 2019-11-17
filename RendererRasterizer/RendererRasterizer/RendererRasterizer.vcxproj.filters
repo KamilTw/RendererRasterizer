@@ -13,6 +13,7 @@
     <ClCompile Include="Shaders\VertexProcessor.cpp" />
     <ClCompile Include="Lights\DirectionalLight.cpp" />
     <ClCompile Include="Lights\PointLight.cpp" />
+    <ClCompile Include="Lights\SpotLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\Math.h" />
@@ -28,5 +29,6 @@
     <ClInclude Include="Shaders\VertexProcessor.h" />
     <ClInclude Include="Lights\DirectionalLight.h" />
     <ClInclude Include="Lights\PointLight.h" />
+    <ClInclude Include="Lights\SpotLight.h" />
   </ItemGroup>
 </Project>

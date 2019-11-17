@@ -8,6 +8,7 @@
 #include "Lights/DirectionalLight.h"
 #include "Lights/Light.h"
 #include "Lights/PointLight.h"
+#include "Lights/SpotLight.h"
 
 int main()
 {
@@ -48,27 +49,41 @@ int main()
 	dl->setDiffuse(float3{ 0.6f, 0.6f, 0.6f });
 	dl->setSpecular(float3{ 0.5f, 0.5f, 0.5f });
 	dl->setShininess(10);
-	rasterizer.addLight(dl);
+	//rasterizer.addLight(dl);
 
 	Light* pointLight1 = new PointLight();
-	pointLight1->setPosition(float3{ 30.0f, 30.0f, -1.0f });
+	pointLight1->setPosition(float3{ 30.0f, 30.0f, 1.0f });
 	pointLight1->setLightColor(float3{ 0.3f, 1.0f, 1.0f });
 	pointLight1->setAmbient(float3{ 0.2f, 0.2f, 0.2f });
 	pointLight1->setDiffuse(float3{ 0.6f, 0.6f, 0.6f });
 	pointLight1->setSpecular(float3{ 0.9f, 0.9f, 0.9f });
 	pointLight1->setShininess(10);
-	pointLight1->setAttenuation(1, 0.01f, 0.0001f);
-	rasterizer.addLight(pointLight1);
+	pointLight1->setAttenuation(1, 0.007f, 0.0002f);
+	//rasterizer.addLight(pointLight1);
 
 	Light* pointLight2 = new PointLight();
-	pointLight2->setPosition(float3{ -5.0f, -5.0f, -1.0f });
+	pointLight2->setPosition(float3{ -5.0f, -5.0f, 1.0f });
 	pointLight2->setLightColor(float3{ 0.3f, 1.0f, 1.0f });
 	pointLight2->setAmbient(float3{ 0.2f, 0.2f, 0.2f });
 	pointLight2->setDiffuse(float3{ 0.6f, 0.6f, 0.6f });
 	pointLight2->setSpecular(float3{ 0.9f, 0.9f, 0.9f });
 	pointLight2->setShininess(10);
-	pointLight2->setAttenuation(1, 0.01f, 0.0001f);
-	rasterizer.addLight(pointLight2);
+	pointLight2->setAttenuation(1, 0.007f, 0.0002f);
+	//rasterizer.addLight(pointLight2);
+
+	Light* spotLight1 = new Spotlight();
+	spotLight1->setPosition(float3{ 0.0f, 0.0f, 6.0f });
+	spotLight1->setDirection(float3{ 0.0f, 0.0f, -1.0f });
+	spotLight1->setLightColor(float3{ 1.0f, 1.0f, 1.0f });
+	spotLight1->setAmbient(float3{ 0.2f, 0.2f, 0.2f });
+	spotLight1->setDiffuse(float3{ 0.6f, 0.6f, 0.6f });
+	spotLight1->setSpecular(float3{ 0.9f, 0.9f, 0.9f });
+	spotLight1->setShininess(10);
+	spotLight1->setAttenuation(1, 0.045f, 0.0075f);
+	spotLight1->setCutoff(cos(0.2f));
+	spotLight1->setOuterCutoff(cos(0.38f));				// outerCutoff needs to be larger than cutoff
+	rasterizer.addLight(spotLight1);
+
 
 	// Box
 	ObjectLoader loader = ObjectLoader();
@@ -76,31 +91,31 @@ int main()
 
 	vp.setIdentity();
 	vp.multByScale(float3{0.35, 0.35, 0.35 });
-	vp.multByRotation(90, float3{ 0, 1, 0 });
-	vp.multByTranslation(float3{ 0.0f, 0.0f, 0 });
+	//vp.multByRotation(180, float3{ 0, 1, 0 });
+	vp.multByTranslation(float3{ 0.0f, 0.0f, 0.0f });
 	rasterizer.draw(&box, vp);
 
 	vp.setIdentity();
 	vp.multByScale(float3{ 0.35, 0.35, 0.35 });
-	vp.multByRotation(90, float3{ 0, 1, 0 });
+	//vp.multByRotation(90, float3{ 0, 1, 0 });
 	vp.multByTranslation(float3{ 0.8f, 0.0f, 0 });
 	rasterizer.draw(&box, vp);
 
 	vp.setIdentity();
 	vp.multByScale(float3{ 0.35, 0.35, 0.35 });
-	vp.multByRotation(90, float3{ 0, 1, 0 });
+	//vp.multByRotation(90, float3{ 0, 1, 0 });
 	vp.multByTranslation(float3{ -0.8f, 0.0f, 0 });
 	rasterizer.draw(&box, vp);
 
 	vp.setIdentity();
 	vp.multByScale(float3{ 0.35, 0.35, 0.35 });
-	vp.multByRotation(90, float3{ 0, 1, 0 });
+	//vp.multByRotation(90, float3{ 0, 1, 0 });
 	vp.multByTranslation(float3{ 0.0f, 0.8f, 0 });
 	rasterizer.draw(&box, vp);
 
 	vp.setIdentity();
 	vp.multByScale(float3{ 0.35, 0.35, 0.35 });
-	vp.multByRotation(90, float3{ 0, 1, 0 });
+	//vp.multByRotation(90, float3{ 0, 1, 0 });
 	vp.multByTranslation(float3{ 0.0f, -0.8f, 0 });
 	rasterizer.draw(&box, vp);
 
@@ -109,5 +124,5 @@ int main()
 	colorBuffer->save("Image.tga");
 
 	duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
-	std::cout << "Rendered in " << duration << " seconds"<< std::endl;
+	std::cout << "Rendered in " << duration << " seconds ("<< 1 / duration << " fps)"<<  std::endl;
 }

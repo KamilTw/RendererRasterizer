@@ -10,6 +10,11 @@ float3 Light::getPosition()
 	return position;
 }
 
+float3 Light::getDirection()
+{
+	return direction;
+}
+
 float3 Light::getLightColor()
 {
 	return lightColor;
@@ -50,9 +55,25 @@ float Light::getQuadraticAtten()
 	return quadratic;
 }
 
+float Light::getCutOff()
+{
+	return cutOff;
+}
+
+float Light::getOuterCutoff()
+{
+	return outerCutoff;
+}
+
 void Light::setPosition(float3 position)
 {
 	this->position = position;
+}
+
+void Light::setDirection(float3 direction)
+{
+	direction.normalize();
+	this->direction = direction;
 }
 
 void Light::setLightColor(float3 lightColor)
@@ -85,4 +106,14 @@ void Light::setAttenuation(float constant, float linear, float quadratic)
 	this->constant = constant;
 	this->linear = linear;
 	this->quadratic = quadratic;
+}
+
+void Light::setCutoff(float cutOff)
+{
+	this->cutOff = cutOff;
+}
+
+void Light::setOuterCutoff(float outerCutoff)
+{
+	this->outerCutoff = outerCutoff;
 }

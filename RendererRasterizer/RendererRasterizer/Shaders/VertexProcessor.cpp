@@ -30,6 +30,20 @@ float3 VertexProcessor::toView(float3 v, float w)
 	}
 }
 
+float3 VertexProcessor::toWorld(float3 v, float w)
+{
+	float4 r = obj2world * float4{ v.x, v.y, v.z, w };;
+
+	if (w == 1)
+	{
+		return float3{ r.x / r.w , r.y / r.w , r.z / r.w };
+	}
+	else
+	{
+		return float3{ r.x , r.y, r.z };
+	}
+}
+
 void VertexProcessor::lt(Model *model)
 {
 	for (int i = 0; i < model->getVerticesAmount(); i++)

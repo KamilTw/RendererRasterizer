@@ -156,6 +156,7 @@
     <ClCompile Include="Lights\DirectionalLight.cpp" />
     <ClCompile Include="Lights\Light.cpp" />
     <ClCompile Include="Lights\PointLight.cpp" />
+    <ClCompile Include="Lights\SpotLight.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object\Model.cpp" />
     <ClCompile Include="Object\ObjectLoader.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Lights\DirectionalLight.h" />
     <ClInclude Include="Lights\Light.h" />
     <ClInclude Include="Lights\PointLight.h" />
+    <ClInclude Include="Lights\SpotLight.h" />
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Object\Model.h" />
     <ClInclude Include="Object\ObjectLoader.h" />
