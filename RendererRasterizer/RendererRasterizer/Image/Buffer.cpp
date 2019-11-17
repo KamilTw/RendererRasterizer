@@ -12,7 +12,8 @@ Buffer::Buffer(int w, int h)
 	{
 		for (int x = 0; x < w; x++)
 		{
-			setPixelColor(x, y, float4{ 0, 0, 0, 1 });
+			float4 startColor = float4{ 0, 0, 0, 1 };
+			setPixelColor(x, y, startColor);
 			setDepth(x, y, 1000000);
 		}
 	}
@@ -33,7 +34,7 @@ void Buffer::clearDepth()
 	depth = 0;
 }
 
-void Buffer::setPixelColor(int x, int y, float4 rgba)
+void Buffer::setPixelColor(int& x, int& y, float4& rgba)
 {
 	color[x + y * w] = (int)(rgba.a * 255) << 24 |
 					   (int)(rgba.r * 255) << 16 |

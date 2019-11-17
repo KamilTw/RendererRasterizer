@@ -113,12 +113,12 @@ void Rasterizer::draw(Triangle* triangle)
 	}
 }
 
-float Rasterizer::xToCanonicalView(float x)
+float Rasterizer::xToCanonicalView(float& x)
 {
 	return (x + 1) * buffer->getWidth() * 0.5f;
 }
 
-float Rasterizer::yToCanonicalView(float y)
+float Rasterizer::yToCanonicalView(float& y)
 {
 	return (y + 1) * buffer->getHeight() * 0.5f;
 }
@@ -180,7 +180,7 @@ void Rasterizer::addLight(Light* light)
 	fragment.addLight(light);
 }
 
-void Rasterizer::setVp(VertexProcessor vp)
+void Rasterizer::setVp(VertexProcessor& vp)
 {
 	this->vp = vp;
 }

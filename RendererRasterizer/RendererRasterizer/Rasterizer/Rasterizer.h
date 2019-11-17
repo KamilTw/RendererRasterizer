@@ -24,8 +24,8 @@ public:
 	void draw(Model* model, VertexProcessor& vp);
 	void draw(Triangle* triangle);
 
-	float xToCanonicalView(float x);
-	float yToCanonicalView(float y);
+	float xToCanonicalView(float& x);
+	float yToCanonicalView(float& y);
 
 	float3 calculateColorPerVertex(float3& v, float4& c, float3& n);
 	float4 interpolateColor(float3& c1Fragment, float3& c2Fragment, float3& c3Fragment, float& l1, float& l2, float& l3);
@@ -33,5 +33,5 @@ public:
 
 	void maxToOne(float3& color);
 	void addLight(Light* light);
-	void setVp(VertexProcessor vp);
+	void setVp(VertexProcessor& vp);
 };

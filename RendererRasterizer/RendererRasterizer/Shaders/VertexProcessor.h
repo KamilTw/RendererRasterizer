@@ -10,7 +10,7 @@ private:
 	float4x4 view2proj;
 
 public:
-	float3 toProj(float3 v, float w);
+	float3 toProj(float3& v, float w);
 	float3 toView(float3 v, float w);
 	float3 toWorld(float3 v, float w);
 	void lt(Model* model);

@@ -150,12 +150,12 @@ inline float4 operator*(float4 v1, float4 v2)
 	return float4{ v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.a * v2.a };
 }
 
-inline float min(float x, float y, float z)
+inline float min(float& x, float& y, float& z)
 {
 	return std::min(x, std::min(y, z));
 }
 
-inline float max(float x, float y, float z)
+inline float max(float& x, float& y, float& z)
 {
 	return std::max(x, std::max(y, z));
 }
@@ -210,7 +210,7 @@ inline float4 operator*(float4x4 m, float4 v)
 	return newVector;
 }
 
-inline float4 operator*(float4x4 m, float3 v)
+inline float4 operator*(float4x4& m, float3& v)
 {
 	float4 vectorWithW = { v.x, v.y, v.z, 1 };
 	float4 newVector;

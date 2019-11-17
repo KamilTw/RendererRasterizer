@@ -1,7 +1,7 @@
 #include "VertexProcessor.h"
 #include <iostream>
 
-float3 VertexProcessor::toProj(float3 v, float w)
+float3 VertexProcessor::toProj(float3& v, float w)
 {
 	float4 r = view2proj * world2view * obj2world * float4{ v.x, v.y, v.z, w };;
 

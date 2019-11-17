@@ -13,7 +13,7 @@ public:
 	void setSize(int size);
 	void clearColor();
 	void clearDepth();
-	void setPixelColor(int x, int y, float4 rgba);
+	void setPixelColor(int& x, int& y, float4& rgba);
 
 	int getWidth();
 	int getHeight();
