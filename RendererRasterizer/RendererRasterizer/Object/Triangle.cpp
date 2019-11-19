@@ -1,6 +1,6 @@
 #include "Triangle.h"
 
-Triangle::Triangle(float3 v1, float3 v2, float3 v3, float4 c1, float4 c2, float4 c3)
+Triangle::Triangle(float3 v1, float3 v2, float3 v3, float3 c1, float3 c2, float3 c3)
 {
 	v[0] = v1;
 	v[1] = v2;

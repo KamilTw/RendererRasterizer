@@ -81,7 +81,7 @@ void Rasterizer::drawTriangle(float3& v11, float3& v22, float3& v33, float3& c1,
 				if (depth < buffer->getDepth(x, y))
 				{
 					// Per vertex lighting
-					//float4 color = interpolateColor(c1Fragment, c2Fragment, c3Fragment, l1, l2, l3);
+					//float3 color = interpolateColor(c1Fragment, c2Fragment, c3Fragment, l1, l2, l3);
 					// Per pixel lighting
 					float3 color = calculateColorPerPixel(v1, v2, v3, c1, c2, c3, n1, n2, n3, l1, l2, l3, tn1, tn2, tn3, texture);
 			

@@ -34,9 +34,9 @@ int main()
 	vp.multByTranslation(float3{ -2.9f, -1.9f, -3 });
 
 	Triangle t1 = Triangle(float3{ 1.0f, -1.0f, -2.0f }, float3{ 0.0f, 0.5f, -3.0f }, float3{ -1.0f, -1.0f, -5.0f },
-								 float4{0, 0, 1, 1}, float4{ 1, 0, 0, 1 }, float4{ 0, 1, 0, 1 });
+						   float3{0, 0, 1 }, float3{ 1, 0, 0 }, float3{ 0, 1, 0 });
 	Triangle t2 = Triangle(float3{ 1.0f, -0.5f, -2.0f }, float3{ -0.2f, 0.5f, -3.0f }, float3{ -0.5f, -0.5f, -5.0f },
-								 float4{ 0, 1, 0, 1 }, float4{ 0, 1, 0, 1 }, float4{ 0, 1, 0, 1 });
+						   float3{ 0, 1, 0 }, float3{ 0, 1, 0 }, float3{ 0, 1, 0 });
 	vp.lt(&t1);
 	vp.lt(&t2);*/
 	//rasterizer.draw(&t1);
