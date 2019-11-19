@@ -17,8 +17,8 @@ private:
 	vector<float3> normals;
 	vector<int3> nIndexes;
 
-	vector<float> u;
-	vector<float> v;
+	vector<float3> texturesVertices;
+	vector<int3> tIndexes;
 
 public:
 	Model loadObject(std::string objectFileName);

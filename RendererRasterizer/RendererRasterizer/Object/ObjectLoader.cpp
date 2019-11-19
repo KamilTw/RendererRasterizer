@@ -13,8 +13,8 @@ Model ObjectLoader::loadObject(std::string objectFileName)
 	normals.clear();
 	nIndexes.clear();
 
-	u.clear();
-	v.clear();
+	texturesVertices.clear();
+	tIndexes.clear();
 
 	loadMaterial(objectFileName);
 
@@ -53,8 +53,7 @@ Model ObjectLoader::loadObject(std::string objectFileName)
 				float textureX, textureY, textureZ;
 				sscanf_s(line.c_str(), "vt %f %f %f", &textureX, &textureY, &textureZ);
 
-				u.push_back(textureX);
-				v.push_back(textureY);
+				texturesVertices.push_back(float3{ textureX, textureY, textureZ });
 			}
 			else if (line[0] == 'u' && line[1] == 's')			// current material
 			{
@@ -79,6 +78,7 @@ Model ObjectLoader::loadObject(std::string objectFileName)
 				vIndexes.push_back(int3{ vIndice1 - 1, vIndice2 - 1, vIndeice3 - 1 });
 				mIndexes.push_back(currentMaterialIndex);
 				nIndexes.push_back(int3{ nIndice1 - 1, nIndice2 - 1, nIndice3 - 1 });
+				tIndexes.push_back(int3{ vtIndice1 - 1, vtIndice2 - 1, vtIndice3 - 1 });
 			}
 		}
 		model.vertices = vertices;
@@ -89,6 +89,9 @@ Model ObjectLoader::loadObject(std::string objectFileName)
 
 		model.normals = normals;
 		model.nIndexes = nIndexes;
+
+		model.texturesVertices = texturesVertices;
+		model.tIndexes = tIndexes;
 
 		file.close();
 		std::cout << objectFileName << ".obj file loaded" << std::endl << std::endl;

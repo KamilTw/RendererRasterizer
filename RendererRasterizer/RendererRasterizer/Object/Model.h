@@ -17,6 +17,9 @@ public:
 	vector<float3> normals;
 	vector<int3> nIndexes;
 
+	vector<float3> texturesVertices;
+	vector<int3> tIndexes;
+
 public:
 	int getVerticesAmount();
 	int getIndexesAmount();

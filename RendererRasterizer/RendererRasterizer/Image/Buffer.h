@@ -11,14 +11,15 @@ protected:
 public:
 	Buffer(int w, int h);
 	void setSize(int size);
+	void setColorBuffer(unsigned int* color);
 	void clearColor();
 	void clearDepth();
 	void setPixelColor(int& x, int& y, float4& rgba);
+	void setDepth(int x, int y, float depth);
 
 	int getWidth();
 	int getHeight();
 	int getLength();
 	float getDepth(int x, int y);
-
-	void setDepth(int x, int y, float depth);
+	float3 getPixelColor(int& x, int& y);
 };

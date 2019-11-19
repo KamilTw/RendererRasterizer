@@ -6,7 +6,7 @@ Rasterizer::Rasterizer(Buffer * buffer)
 	fragment = Fragment();
 }
 
-void Rasterizer::draw(float3& v11, float3& v22, float3& v33, float4& c1, float4& c2, float4& c3, float3& n11, float3& n22, float3& n33)
+void Rasterizer::drawTriangle(float3& v11, float3& v22, float3& v33, float4& c1, float4& c2, float4& c3, float3& n11, float3& n22, float3& n33, float3& tn1, float3& tn2, float3& tn3, Buffer* texture)
 {
 	// Vertex processor
 	float3 v1 = vp.toProj(v11, 1);
@@ -83,7 +83,7 @@ void Rasterizer::draw(float3& v11, float3& v22, float3& v33, float4& c1, float4&
 					// Per vertex lighting
 					//float4 color = interpolateColor(c1Fragment, c2Fragment, c3Fragment, l1, l2, l3);
 					// Per pixel lighting
-					float4 color = calculateColorPerPixel(v1, v2, v3, c1, c2, c3, n1, n2, n3, l1, l2, l3);
+					float4 color = calculateColorPerPixel(v1, v2, v3, c1, c2, c3, n1, n2, n3, l1, l2, l3, tn1, tn2, tn3, texture);
 			
 					buffer->setPixelColor(x, y, color);
 					buffer->setDepth(x, y, depth);
@@ -93,14 +93,16 @@ void Rasterizer::draw(float3& v11, float3& v22, float3& v33, float4& c1, float4&
 	}
 }
 
-void Rasterizer::draw(Model* model, VertexProcessor& vp)
+void Rasterizer::draw(Model* model, VertexProcessor& vp, Buffer* texture)
 {
 	setVp(vp);
 	for (int i = 0; i < model->getIndexesAmount(); i++)
-	{	
-		draw(model->vertices[model->vIndexes[i].a], model->vertices[model->vIndexes[i].b], model->vertices[model->vIndexes[i].c],
-			 model->materials[model->mIndexes[i]].kd, model->materials[model->mIndexes[i]].kd, model->materials[model->mIndexes[i]].kd,
-			 model->normals[model->nIndexes[i].a], model->normals[model->nIndexes[i].b], model->normals[model->nIndexes[i].c]);
+	{
+		drawTriangle(model->vertices[model->vIndexes[i].a], model->vertices[model->vIndexes[i].b], model->vertices[model->vIndexes[i].c],
+					 model->materials[model->mIndexes[i]].kd, model->materials[model->mIndexes[i]].kd, model->materials[model->mIndexes[i]].kd,
+					 model->normals[model->nIndexes[i].a], model->normals[model->nIndexes[i].b], model->normals[model->nIndexes[i].c],
+					 model->texturesVertices[model->tIndexes[i].a], model->texturesVertices[model->tIndexes[i].b], model->texturesVertices[model->tIndexes[i].c],
+					 texture);
 	}
 }
 
@@ -139,7 +141,7 @@ float4 Rasterizer::interpolateColor(float3& c1Fragment, float3& c2Fragment, floa
 	return float4{ interpolatedColor.r, interpolatedColor.g, interpolatedColor.b, 1 };
 }
 
-float4 Rasterizer::calculateColorPerPixel(float3& v1, float3& v2, float3& v3, float4& c1, float4& c2, float4& c3, float3& n1, float3& n2, float3& n3, float& l1, float& l2, float& l3)
+float4 Rasterizer::calculateColorPerPixel(float3& v1, float3& v2, float3& v3, float4& c1, float4& c2, float4& c3, float3& n1, float3& n2, float3& n3, float& l1, float& l2, float& l3, float3& tn1, float3& tn2, float3& tn3, Buffer* texture)
 {
 	// Normals interpolation
 	float nx = l1 * n1.x + l2 * n2.x + l3 * n3.x;
@@ -151,15 +153,30 @@ float4 Rasterizer::calculateColorPerPixel(float3& v1, float3& v2, float3& v3, fl
 	float vy = l1 * v1.y + l2 * v2.y + l3 * v3.y;
 	float vz = l1 * v1.z + l2 * v2.z + l3 * v3.z;
 
-	// Color interpolation
-	float cr = l1 * c1.r + l2 * c2.r + l3 * c3.r;
-	float cg = l1 * c1.g + l2 * c2.g + l3 * c3.g;
-	float cb = l1 * c1.b + l2 * c2.b + l3 * c3.b;
-
-	float3 interpolatedV = float3{ vx, vy, vz };
+	float3 interpolatedVert = float3{ vx, vy, vz };
 	float3 interpolatedN = float3{ nx, ny, nz };
 
-	float3 colorPerPixel = float3{ cr, cg, cb } * fragment.calculate(interpolatedV, interpolatedN, vp);
+	float3 colorPerPixel;
+	if (texture == NULL)
+	{	
+		// Color interpolation
+		float cr = l1 * c1.r + l2 * c2.r + l3 * c3.r;
+		float cg = l1 * c1.g + l2 * c2.g + l3 * c3.g;
+		float cb = l1 * c1.b + l2 * c2.b + l3 * c3.b;
+
+		colorPerPixel = float3{ cr, cg, cb } * fragment.calculate(interpolatedVert, interpolatedN, vp);
+	}
+	else
+	{	
+		// UV interpolation
+		float interpolatedU = l1 * tn1.x + l2 * tn2.x + l3 * tn3.x;
+		float interpolatedV = l1 * tn1.y + l2 * tn2.y + l3 * tn3.y;
+
+		int column = (int)((texture->getHeight() - 1) * interpolatedV);
+		int row = (int)((texture->getWidth() - 1) * interpolatedU);
+
+		colorPerPixel = texture->getPixelColor(row, column) * fragment.calculate(interpolatedVert, interpolatedN, vp);
+	}
 	maxToOne(colorPerPixel);
 
 	return float4{ colorPerPixel.r, colorPerPixel.g, colorPerPixel.b, c1.a };

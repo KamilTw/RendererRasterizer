@@ -24,6 +24,11 @@ void Buffer::setSize(int size)
 	color = new unsigned int[size];
 }
 
+void Buffer::setColorBuffer(unsigned int* color)
+{
+	this->color = color;
+}
+
 void Buffer::clearColor()
 {
 	color = new unsigned int[w * h];
@@ -41,6 +46,11 @@ void Buffer::setPixelColor(int& x, int& y, float4& rgba)
 					   (int)(rgba.g * 255) << 8 |
 					   (int)(rgba.b * 255);
 	//color[x + y * w] = 16777216 * a + 65536 * r + 256 * g + b;
+}
+
+void Buffer::setDepth(int x, int y, float newDepth)
+{
+	depth[x + y * w] = newDepth;
 }
 
 int Buffer::getWidth()
@@ -63,7 +73,11 @@ float Buffer::getDepth(int x, int y)
 	return depth[x + y * w];
 }
 
-void Buffer::setDepth(int x, int y, float newDepth)
+float3 Buffer::getPixelColor(int& x, int& y)
 {
-	depth[x + y * w] = newDepth;
+	float r = ((color[x + y * w] >> 16) & 0xFF) / 255.0f;
+	float g = ((color[x + y * w] >> 8) & 0xFF) / 255.0f;
+	float b = (color[x + y * w] & 0xFF) / 255.0f;
+
+	return float3{ r, g, b };
 }

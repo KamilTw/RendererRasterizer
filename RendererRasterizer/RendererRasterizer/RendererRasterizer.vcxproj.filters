@@ -14,6 +14,7 @@
     <ClCompile Include="Lights\DirectionalLight.cpp" />
     <ClCompile Include="Lights\PointLight.cpp" />
     <ClCompile Include="Lights\SpotLight.cpp" />
+    <ClCompile Include="Textures\TextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\Math.h" />
@@ -30,5 +31,6 @@
     <ClInclude Include="Lights\DirectionalLight.h" />
     <ClInclude Include="Lights\PointLight.h" />
     <ClInclude Include="Lights\SpotLight.h" />
+    <ClInclude Include="Textures\TextureLoader.h" />
   </ItemGroup>
 </Project>
