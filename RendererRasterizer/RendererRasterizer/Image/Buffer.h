@@ -14,7 +14,7 @@ public:
 	void setColorBuffer(unsigned int* color);
 	void clearColor();
 	void clearDepth();
-	void setPixelColor(int& x, int& y, float4& rgba);
+	void setPixelColor(int& x, int& y, float3& rgb);
 	void setDepth(int x, int y, float depth);
 
 	int getWidth();

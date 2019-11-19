@@ -92,9 +92,9 @@ struct float4x4
 
 struct Material
 {
-	float4 ka;
-	float4 kd;
-	float4 ks;
+	float3 ka;
+	float3 kd;
+	float3 ks;
 };
 
 inline float3 operator-(float3 v)

@@ -6,7 +6,7 @@ Rasterizer::Rasterizer(Buffer * buffer)
 	fragment = Fragment();
 }
 
-void Rasterizer::drawTriangle(float3& v11, float3& v22, float3& v33, float4& c1, float4& c2, float4& c3, float3& n11, float3& n22, float3& n33, float3& tn1, float3& tn2, float3& tn3, Buffer* texture)
+void Rasterizer::drawTriangle(float3& v11, float3& v22, float3& v33, float3& c1, float3& c2, float3& c3, float3& n11, float3& n22, float3& n33, float3& tn1, float3& tn2, float3& tn3, Buffer* texture)
 {
 	// Vertex processor
 	float3 v1 = vp.toProj(v11, 1);
@@ -83,7 +83,7 @@ void Rasterizer::drawTriangle(float3& v11, float3& v22, float3& v33, float4& c1,
 					// Per vertex lighting
 					//float4 color = interpolateColor(c1Fragment, c2Fragment, c3Fragment, l1, l2, l3);
 					// Per pixel lighting
-					float4 color = calculateColorPerPixel(v1, v2, v3, c1, c2, c3, n1, n2, n3, l1, l2, l3, tn1, tn2, tn3, texture);
+					float3 color = calculateColorPerPixel(v1, v2, v3, c1, c2, c3, n1, n2, n3, l1, l2, l3, tn1, tn2, tn3, texture);
 			
 					buffer->setPixelColor(x, y, color);
 					buffer->setDepth(x, y, depth);
@@ -125,23 +125,23 @@ float Rasterizer::yToCanonicalView(float& y)
 	return (y + 1) * buffer->getHeight() * 0.5f;
 }
 
-float3 Rasterizer::calculateColorPerVertex(float3& v, float4& c, float3& n)
+float3 Rasterizer::calculateColorPerVertex(float3& v, float3& c, float3& n)
 {
 	float3 cFragment = float3{ c.r, c.g, c.b } * fragment.calculate(v, n, vp);
 
 	return cFragment;
 }
 
-float4 Rasterizer::interpolateColor(float3& c1Fragment, float3& c2Fragment, float3& c3Fragment, float& l1, float& l2, float& l3)
+float3 Rasterizer::interpolateColor(float3& c1Fragment, float3& c2Fragment, float3& c3Fragment, float& l1, float& l2, float& l3)
 {
 	// Color interpolation
 	float3 interpolatedColor = c1Fragment * l1 + c2Fragment * l2 + c3Fragment * l3;
 	maxToOne(interpolatedColor);
 
-	return float4{ interpolatedColor.r, interpolatedColor.g, interpolatedColor.b, 1 };
+	return interpolatedColor;
 }
 
-float4 Rasterizer::calculateColorPerPixel(float3& v1, float3& v2, float3& v3, float4& c1, float4& c2, float4& c3, float3& n1, float3& n2, float3& n3, float& l1, float& l2, float& l3, float3& tn1, float3& tn2, float3& tn3, Buffer* texture)
+float3 Rasterizer::calculateColorPerPixel(float3& v1, float3& v2, float3& v3, float3& c1, float3& c2, float3& c3, float3& n1, float3& n2, float3& n3, float& l1, float& l2, float& l3, float3& tn1, float3& tn2, float3& tn3, Buffer* texture)
 {
 	// Normals interpolation
 	float nx = l1 * n1.x + l2 * n2.x + l3 * n3.x;
@@ -179,7 +179,7 @@ float4 Rasterizer::calculateColorPerPixel(float3& v1, float3& v2, float3& v3, fl
 	}
 	maxToOne(colorPerPixel);
 
-	return float4{ colorPerPixel.r, colorPerPixel.g, colorPerPixel.b, c1.a };
+	return colorPerPixel;
 }
 
 void Rasterizer::maxToOne(float3 &color)

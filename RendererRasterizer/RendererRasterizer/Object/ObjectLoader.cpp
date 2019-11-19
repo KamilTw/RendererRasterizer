@@ -107,7 +107,7 @@ void ObjectLoader::loadMaterial(string objectFileName)
 	file.open("Objects/" + objectFileName + ".mtl");
 
 	string materialName;
-	float4 ka, kd, ks;
+	float3 ka, kd, ks;
 
 	if (!file.is_open())
 	{
@@ -129,21 +129,21 @@ void ObjectLoader::loadMaterial(string objectFileName)
 				float r, g, b;
 				sscanf_s(line.c_str(), "	Ka %f %f %f", &r, &g, &b);
 
-				ka = float4{ r, g, b, 1 };
+				ka = float3{ r, g, b };
 			}
 			else if (line[0] == '	' && line[1] == 'K' && line[2] == 'd')		// diffuse color
 			{
 				float r, g, b;
 				sscanf_s(line.c_str(), "	Kd %f %f %f", &r, &g, &b);
 
-				kd = float4{ r, g, b, 1 };
+				kd = float3{ r, g, b };
 			}
 			else if (line[0] == '	' && line[1] == 'K' && line[2] == 's')		// specular color
 			{
 				float r, g, b;
 				sscanf_s(line.c_str(), "	Ks %f %f %f", &r, &g, &b);
 
-				ks = float4{ r, g, b, 1 };
+				ks = float3{ r, g, b };
 
 				materialNames.push_back(materialName);
 				materials.push_back(Material{ka, kd, ks});
