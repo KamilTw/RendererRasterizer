@@ -18,9 +18,7 @@ Buffer TextureLoader::loadImage(const char* fileName)
 
 	fclose(file);
 
-	std::cout << "Texture ";
-	std::cout << fileName;
-	std::cout << " loaded" << std::endl << std::endl;
+	printf("Texture %s loaded \n \n", fileName);
 
 	return buffer;
 }

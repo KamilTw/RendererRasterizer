@@ -216,5 +216,5 @@ int main()
 	colorBuffer->save("Image.tga");
 
 	duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
-	std::cout << std::endl << std::endl << "Rendered in " << duration << " seconds ("<< 1 / duration << " fps)"<<  std::endl;
+	printf("\n \nRendered in %f seconds (%f fps) \n", duration, 1 / duration);
 }

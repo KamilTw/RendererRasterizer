@@ -19,7 +19,5 @@ void TgaBuffer::save(const char *fileName)
 	fwrite(color, 4, w * h, file);
 	fclose(file);
 
-	std::cout << "File ";
-	std::cout << fileName;;
-	std::cout << " saved" << std::endl;
+	printf("File %s saved \n", fileName);
 }

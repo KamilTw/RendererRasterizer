@@ -1,8 +1,5 @@
 #include "SpotLight.h"
 
-#include <iostream>
-using namespace std;
-
 float3 Spotlight::calculate(float3& fragPosition, float3& fragNormal, VertexProcessor& vertexProcessor)
 {
 	// Normal
@@ -27,7 +24,7 @@ float3 Spotlight::calculate(float3& fragPosition, float3& fragNormal, VertexProc
 	float specCoefficient = powf(max(dotProduct(R, V), 0.0f), getShininess());
 
 	float distance = (getPosition() - surfacePos).getLength();
-	//cout << distance << endl;
+
 	float attenuation = 1.0f / (getConstantAtten() + getLinearAtten() * distance + getQuadraticAtten() * distance * distance);
 
 	// Spotlight intensity

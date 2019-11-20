@@ -26,7 +26,7 @@ Model ObjectLoader::loadObject(std::string objectFileName)
 
 	if (!file.is_open())
 	{
-		std::cout << objectFileName << ".obj file not found" << std::endl << std::endl;
+		printf("%s.obj file not found \n \n", objectFileName);
 	}
 	else
 	{
@@ -94,7 +94,7 @@ Model ObjectLoader::loadObject(std::string objectFileName)
 		model.tIndexes = tIndexes;
 
 		file.close();
-		std::cout << objectFileName << ".obj file loaded" << std::endl << std::endl;
+		printf("%s.obj file loaded \n \n", objectFileName);
 
 		return model;
 	}
@@ -111,7 +111,7 @@ void ObjectLoader::loadMaterial(string objectFileName)
 
 	if (!file.is_open())
 	{
-		cout << objectFileName << ".mtl file not found" << endl;
+		printf("%s.mtl file not found \n \n", objectFileName);
 	}
 	else
 	{
@@ -151,6 +151,6 @@ void ObjectLoader::loadMaterial(string objectFileName)
 		}
 
 		file.close();
-		cout << materialNames.size() << " materials loaded from " << objectFileName + ".mtl" << endl;
+		printf("%i materials loaded from %s.mtl file \n", materialNames.size(), objectFileName);
 	}
 }

@@ -22,5 +22,5 @@ private:
 
 public:
 	Model loadObject(std::string objectFileName);
-	void loadMaterial(string objectFileName);
+	void loadMaterial(std::string objectFileName);
 };
