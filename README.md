@@ -2,7 +2,7 @@
 
 Image rendering using rasterization technique in C++. Is gets data from .obj files which store information about vertices, normals
 and texture coordinates. Allows to enable directional, point or spot lights. Textures data are loaded from .tga files. 
-Application produces final rendering image and its rendering time in seconds and frames per seconds.
+Application produces final rendering image and its rendering time in seconds and frames per second.
 <br/>
 <br/>
 
